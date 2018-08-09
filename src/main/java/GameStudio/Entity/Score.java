@@ -11,7 +11,7 @@ public class Score implements Serializable {
 
 	public Score() {
 	}
-
+ 
 	public Score(String game,String player, int points, Date when) {
 		this.game=  game;
 		this.player = player;
