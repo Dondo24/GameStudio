@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Scanner;
 
 import GameStudio.Entity.Score;
+import GameStudio.Game.Game;
 import GameStudio.Game.MineSweeper.Core.Clue;
 import GameStudio.Game.MineSweeper.Core.Field;
 import GameStudio.Game.MineSweeper.Core.GameState;
@@ -13,19 +14,20 @@ import GameStudio.Game.MineSweeper.Core.TileState;
 import GameStudio.Game.MineSweeper.Core.GameDifficulty;
 import GameStudio.Service.*;
 
-public class ConsoleUI {
+public class MineSweeperConsoleUI  implements Game{
 	private Field field;
 	private ScoreService scoreService = new ScoreServiceJDBC();
 	private GameDifficulty gd;
 	
-	public ConsoleUI() {
+	public MineSweeperConsoleUI() {
 
-		setDifficulty();
-		field = new Field(gd);
-
+	
 	}
 
 	public void play() {
+		setDifficulty();
+		field = new Field(gd);
+
 		printScores();
 		print();
 
@@ -155,5 +157,11 @@ public class ConsoleUI {
 			System.out.println();
 
 		}
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return "mines";
 	}
 }

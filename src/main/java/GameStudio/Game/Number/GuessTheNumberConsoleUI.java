@@ -5,11 +5,12 @@ import java.util.Random;
 import java.util.Scanner;
 
 import GameStudio.Entity.Score;
+import GameStudio.Game.Game;
 import GameStudio.Service.ScoreService;
 import GameStudio.Service.ScoreServiceFile;
 import GameStudio.Service.ScoreServiceJDBC;
 
-public class GuessTheNumber {
+public class GuessTheNumberConsoleUI  implements Game{
 	private boolean solved = false;
 	private int numberOfTry;
 	private int maxNumber;
@@ -21,6 +22,7 @@ public class GuessTheNumber {
 		while (!solved) {
 			processInput(number);
 		}
+		solved = false;
 
 	}
 
@@ -71,6 +73,12 @@ public class GuessTheNumber {
 			index++;
 		}
 		System.out.println("-----------------------------");
+	}
+
+	@Override
+	public String getName() {
+		
+		return "guess";
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Scanner;
 
 import GameStudio.Entity.Score;
+import GameStudio.Game.Game;
 import GameStudio.Game.Pexeso.Core.Field;
 import GameStudio.Game.Pexeso.Core.Tile;
 import GameStudio.Game.Pexeso.Core.TileState;
@@ -11,12 +12,12 @@ import GameStudio.Service.ScoreService;
 import GameStudio.Service.ScoreServiceFile;
 import GameStudio.Service.ScoreServiceJDBC;
 
-public class ConsoleUI {
+public class PexesoConsoleUI implements Game{
 
 	private Field field;
 	private ScoreService scoreService =new ScoreServiceJDBC();
 
-	public ConsoleUI() {
+	public PexesoConsoleUI() {
 		this.field = new Field(2, 2);
 	}
 
@@ -103,5 +104,11 @@ public class ConsoleUI {
 			System.out.println();
 		}
 
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return "pexeso";
 	}
 }

@@ -3,25 +3,27 @@ package GameStudio.Game.Puzzle.Console;
 import java.util.Date;
 import java.util.Scanner;
 
+import GameStudio.Game.Game;
 import GameStudio.Game.Puzzle.Core.Field;
 import GameStudio.Game.Puzzle.Core.GameDifficulty;
 import GameStudio.Game.Puzzle.Core.Tile;
 import GameStudio.Entity.Score;
 import  GameStudio.Service.*;
 
-public class ConsoleUI {
+public class PuzzleConsoleUI  implements Game{
 	private Field field;
 	private GameDifficulty gd;
 	private ScoreService scoreService = new ScoreServiceJDBC();
 
-	public ConsoleUI() {
+	public PuzzleConsoleUI() {
 		
-		setDifficulty();
-		field = new Field(gd);
+		
 
 	}
 
 	public void play() {
+		setDifficulty();
+		field = new Field(gd);
 		printScores();
 		print();
 		Scanner  s = new Scanner(System.in);
@@ -125,6 +127,12 @@ public class ConsoleUI {
 		}
 		System.out.println();
 
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return "puzzle";
 	}
 
 }

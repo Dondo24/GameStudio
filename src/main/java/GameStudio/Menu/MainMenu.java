@@ -1,54 +1,42 @@
 package GameStudio.Menu;
 
-import java.util.Optional;
 import java.util.Scanner;
 
-import GameStudio.Game.Number.GuessTheNumber;
-import GameStudio.Game.Puzzle.Console.ConsoleUI;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import GameStudio.Game.Game;
+import GameStudio.Game.MineSweeper.Console.MineSweeperConsoleUI;
+import GameStudio.Game.Number.GuessTheNumberConsoleUI;
+import GameStudio.Game.Pexeso.Console.PexesoConsoleUI;
+import GameStudio.Game.Puzzle.Console.PuzzleConsoleUI;
+
 
 public class MainMenu {
-	private enum Games {
-		MineSweeper, Pexeso, Puzzle, GuessTheNumber
-	};
 
-	public static void main(String[] args) {
+@Autowired
+private Game[] games;
 
-		Scanner s = new Scanner(System.in);
-		int input = 0;
-		try {
-			int NumberOfGames = 1;
-			while (!(input == 5)) {
-				for (Games games : Games.values()) {
-					System.out.println(NumberOfGames + ". " + games);
-					NumberOfGames++;
+	public void run() {
+		while(true) {
+			try {
+				System.out.println("Games:");
+				for (int i = 0; i < games.length; i++) {
+					System.out.println((i+1)+". "+games[i].getName());
 				}
-				input = Integer.parseInt(s.nextLine());
-				if (input == 5)
+				System.out.println("0. EXIT GAMESTUDIO");
+				Scanner scanner = new Scanner(System.in);
+				int input = Integer.parseInt(scanner.nextLine());
+				if(input==0) {
 					return;
-				if (input < 5 && input > 0) {
-					if (input == 1) {
-						GameStudio.Game.MineSweeper.Console.ConsoleUI consoleUIMinesweeper = new GameStudio.Game.MineSweeper.Console.ConsoleUI();
-						consoleUIMinesweeper.play();
-					}
-					if (input == 2) {
-						GameStudio.Game.Pexeso.Console.ConsoleUI consoleUIPexeso = new GameStudio.Game.Pexeso.Console.ConsoleUI();
-						consoleUIPexeso.play();
-					}
-					if (input == 3) {
-						ConsoleUI consoleUIPuzzle = new ConsoleUI();
-						consoleUIPuzzle.play();
-					}
-					if (input == 4) {
-						GuessTheNumber gtn = new GuessTheNumber();
-						gtn.play();
-					}
-				} else {
-					System.out.println("InvalidInput");
 				}
-				NumberOfGames=1;
+				if(input>0 && input< games.length) {
+					games[input-1].play();
+				}
+			}catch(Exception e ) {
+				System.out.println("error:"+e.getMessage());
 			}
-		} catch (Exception e) {
-			System.out.println("Invalid Inuput");
 		}
+
+
 	}
 }
