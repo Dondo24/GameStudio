@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gamestudio user</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" href="/css/game.css" />
+   
+</head>
+<body>
+	<div th:replace="fragments::loginMenu"></div>
+<H1>Register</H1>
+<h3>
+<form  action="/register" method = "Post">
+<div th:if="${@userController.logged}">You are already logged. <a href="/logout">Logout</a>
+</div>
+<div th:unless="${@userController.logged}">
+<div>
+<label>Username</label>
+<input type="text" name="username" required="required"/>
+</div>
+<div>
+<label>Password</label>
+<input type="password" name = "password" required="required"/>
+
+</div>
+<div>
+<label>Validate password</label>
+<input type="password" name = "repeatPassword" required="required"/>
+
+</div>
+<div>
+<div th:if = "${registerMessage}" th:text = "${registerMessage}" class= "error-message">here goes message</div>
+<input type="submit" value="Register"/> 
+</div>
+</div>
+</form>
+</h3>
+
+
+</body>
+</html>

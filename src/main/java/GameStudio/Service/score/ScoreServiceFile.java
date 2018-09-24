@@ -1,4 +1,4 @@
-package GameStudio.Service;
+package GameStudio.Service.score;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

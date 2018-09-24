@@ -3,17 +3,21 @@ package GameStudio.Game.Puzzle.Console;
 import java.util.Date;
 import java.util.Scanner;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import GameStudio.Game.Game;
 import GameStudio.Game.Puzzle.Core.Field;
 import GameStudio.Game.Puzzle.Core.GameDifficulty;
 import GameStudio.Game.Puzzle.Core.Tile;
 import GameStudio.Entity.Score;
 import  GameStudio.Service.*;
+import GameStudio.Service.score.ScoreService;
 
 public class PuzzleConsoleUI  implements Game{
 	private Field field;
 	private GameDifficulty gd;
-	private ScoreService scoreService = new ScoreServiceJDBC();
+	@Autowired
+	private ScoreService scoreService ;
 
 	public PuzzleConsoleUI() {
 		
@@ -93,7 +97,7 @@ public class PuzzleConsoleUI  implements Game{
 		System.out.println("No.  Player             Score");
 		System.out.println("-----------------------------");
 		for (Score score : scoreService.getBestScores("puzzle")) {
-			System.out.printf("%3d. %-16s %5d\n", index, score.getPlayer(), score.getPoints());
+			System.out.printf("%3d. %-16s %5d\n", index,score.getUsername(), score.getPoints());
 			index++;
 		}
 		System.out.println("-----------------------------");

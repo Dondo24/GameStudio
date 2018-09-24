@@ -4,17 +4,20 @@ import java.util.Date;
 import java.util.Random;
 import java.util.Scanner;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import GameStudio.Entity.Score;
 import GameStudio.Game.Game;
-import GameStudio.Service.ScoreService;
-import GameStudio.Service.ScoreServiceFile;
-import GameStudio.Service.ScoreServiceJDBC;
+import GameStudio.Service.score.ScoreService;
+import GameStudio.Service.score.ScoreServiceFile;
+import GameStudio.Service.score.ScoreServiceJDBC;
 
 public class GuessTheNumberConsoleUI  implements Game{
 	private boolean solved = false;
 	private int numberOfTry;
 	private int maxNumber;
-	private ScoreService scoreService = new ScoreServiceJDBC();
+	@Autowired
+	private ScoreService scoreService;
 	
 	public void play() {
 		printScores();
@@ -69,7 +72,7 @@ public class GuessTheNumberConsoleUI  implements Game{
 		System.out.println("No.  Player             Score");
 		System.out.println("-----------------------------");
 		for (Score score : scoreService.getBestScores("guess")) {
-			System.out.printf("%3d. %-16s %5d\n", index, score.getPlayer(), score.getPoints());
+			System.out.printf("%3d. %-16s %5d\n", index, score.getUsername(), score.getPoints());
 			index++;
 		}
 		System.out.println("-----------------------------");

@@ -1,6 +1,8 @@
 package GameStudio.Game.MineSweeper.Core;
 
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 import GameStudio.Game.MineSweeper.Core.*;
 
@@ -12,7 +14,7 @@ public class Field {
 	private final int mineCount;
 	private final Tile[][] tiles;
 	private GameState state = GameState.PLAYING;
-	private Long startTime ;
+	private Long startTime;
 	
 
 	public Field(GameDifficulty gd) {
@@ -21,6 +23,8 @@ public class Field {
 		this.columnCount = gd.getColumnCount();
 		this.mineCount = gd.getMinesCount();
 		tiles = new Tile[rowCount][columnCount];
+	
+
 		generate();
 	}
 
@@ -29,8 +33,12 @@ public class Field {
 		fillWithClues();
 
 	}
+	
+
+
 
 	private void generateMines() {
+	
 		Random random = new Random();
 		int minesToSet = mineCount;
 		while (minesToSet > 0) {
@@ -38,9 +46,11 @@ public class Field {
 			int column = random.nextInt(columnCount);
 			if ((tiles[row][column] == null)) {
 				tiles[row][column] = new Mine();
+				
 				minesToSet--;
 			}
 		}
+		
 	}
 
 	public boolean isSolved() {
@@ -104,12 +114,15 @@ public class Field {
 		}
 
 	}
+	public void openTile(int row,int column) {
+		openTile(row, column,true);
+	}
 
-	public void openTile(int row, int column) {
+	public void openTile(int row, int column,boolean save) {
 		Tile tile = tiles[row][column];
 		if ((tile.getState().equals(TileState.CLOSED))) {
 			tile.setState(TileState.OPENED);
-
+			
 			if (tile instanceof Mine) {
 				state = GameState.FAILED;
 				return;
@@ -128,9 +141,11 @@ public class Field {
 		Tile tile = getTile(row, column);
 		if (tile.getState().equals(TileState.CLOSED)) {
 			tile.setState(TileState.MARKED);
+			
 		} else {
 			if (tile.getState().equals(TileState.MARKED)) {
 				tile.setState(TileState.CLOSED);
+				
 			}
 		}
 
@@ -161,35 +176,34 @@ public class Field {
 	}
 
 	public void openAround(int row, int column) {
-		 if(validIndex(row-1, column-1))
-			 openTile(row-1, column-1);
-		 
-		 if(validIndex(row-1, column))
-			 openTile(row-1, column);
-		 
-		 if(validIndex(row-1, column+1))
-			 openTile(row-1, column+1);
+		if (validIndex(row - 1, column - 1))
+			openTile(row - 1, column - 1,false);
 
-		 
-		 if(validIndex(row, column-1))
-			 openTile(row, column-1);
-		 
-		 if(validIndex(row, column+1))
-			 openTile(row, column+1);
-		
-		 
-		 
-		 if(validIndex(row+1, column-1))
-			 openTile(row+1, column-1);
-		 
-		 if(validIndex(row+1, column))
-			 openTile(row+1, column);
-		 
-		 if(validIndex(row+1, column+1))
-			 openTile(row+1, column+1);
-			
+		if (validIndex(row - 1, column))
+			openTile(row - 1, column,false);
+
+		if (validIndex(row - 1, column + 1))
+			openTile(row - 1, column + 1,false);
+
+		if (validIndex(row, column - 1))
+			openTile(row, column - 1,false);
+
+		if (validIndex(row, column + 1))
+			openTile(row, column + 1,false);
+
+		if (validIndex(row + 1, column - 1))
+			openTile(row + 1, column - 1,false);
+
+		if (validIndex(row + 1, column))
+			openTile(row + 1, column,false);
+
+		if (validIndex(row + 1, column + 1))
+			openTile(row + 1, column + 1,false);
+
 	}
+
 	public int getScore() {
-		return (int) (mineCount * 100 - (startTime-System.currentTimeMillis())/1000);
+		return (int) (mineCount * 100 - (startTime - System.currentTimeMillis()) / 1000);
 	}
+
 }

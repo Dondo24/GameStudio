@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>TicTacToe</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link rel="stylesheet" href="/css/stylesheet.css" />
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous" />
+<link rel="stylesheet" href="/css/game.css" />
+
+</head>
+<body>
+
+
+	<div th:replace="fragments::header"></div>
+	<h1>TicTacToe</h1>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-4">
+				<h3>New Game:</h3>
+				<a class="easy" href="/tictactoe1v1">Player VS Player</a> 
+				<br></br>
+				<a class="easy" href="/tictactoe1vpc">Player VS PC</a> 
+					<div>
+					<span class="text">State:</span>
+					
+					<div th:if="${@ticTacToeController.vsPc()}">
+					
+						<div th:unless="${@ticTacToeController.isSolved()}">
+					<div th:if="${@ticTacToeController.isDraw()}">
+						<span class="text">Draw</span>
+						</div>
+						</div>
+					<div th:if="${@ticTacToeController.isSolved()}">
+					<div th:unless="${@ticTacToeController.playerOneWin()}">
+						<span class="text">Player 1 WIN</span>
+						</div>
+							<div th:if="${@ticTacToeController.playerOneWin()}">
+						<span class="text">PC WIN</span>
+						</div>
+					</div>
+					<div th:unless="${@ticTacToeController.isDraw()}">
+						<div th:unless="${@ticTacToeController.isSolved()}">
+						<span class="text">Playing</span>
+					</div>
+						</div>
+		
+					
+					</div>
+					<div th:unless="${@ticTacToeController.vsPc()}">
+				
+					<div th:unless="${@ticTacToeController.isSolved()}">
+					<div th:if="${@ticTacToeController.isDraw()}">
+						<span class="text">Draw</span>
+						</div>
+						</div>
+					<div th:if="${@ticTacToeController.isSolved()}">
+					<div th:unless="${@ticTacToeController.playerOneWin()}">
+						<span class="text">Player 1 WIN</span>
+						</div>
+							<div th:if="${@ticTacToeController.playerOneWin()}">
+						<span class="text">Player 2 WIN</span>
+						</div>
+					</div>
+					<div th:unless="${@ticTacToeController.isDraw()}">
+						<div th:unless="${@ticTacToeController.isSolved()}">
+						<span class="text">Playing</span>
+					</div>
+						</div>
+					
+				</div>
+					
+					
+					
+					
+					</div>
+					
+				<div th:utext="${@ticTacToeController.getHTMLField()}" ></div>
+				<br />	
+			</div>
+			<div class="col-sm-4">
+				<div th:if="${@userController.logged}" >
+				<div th:replace="fragments::rating('tictactoe')"></div>
+			</div>
+			</div>
+			<div class="col-sm-4">
+			<div th:if="${@userController.logged}" >
+			<div th:replace="fragments::leaveComent('tictactoe')"></div>
+			</div>
+				<div th:replace="fragments::coment('tictactoe')"></div>
+				
+
+				<!-- 				<div th:replace="fragments::AVGRating('mines')"></div> -->
+
+			</div>
+
+		</div>
+	</div>
+
+
+	
+</body>
+</html>

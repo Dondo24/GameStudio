@@ -1,9 +1,9 @@
 package GameStudio.Game.Pexeso.Core;
+
 import java.util.Random;
 
-import GameStudio.Service.ScoreService;
-import GameStudio.Service.ScoreServiceFile;
-
+import GameStudio.Service.score.ScoreService;
+import GameStudio.Service.score.ScoreServiceFile;
 
 public class Field {
 	private int rowCount;
@@ -11,10 +11,14 @@ public class Field {
 	private Tile[][] tiles;
 	private int movesCount;
 	private int solvedTiles = 0;
-	
-	public Field(int rowCount, int columnCount) {
-		this.rowCount = rowCount;
-		this.columnCount = columnCount;
+	private int r1 = -1;
+	private int c1 = -1;
+	private int r2 = -1;
+	private int c2 = -1;
+
+	public Field(GameDifficulty gd) {
+		this.rowCount = gd.getRowCount();
+		this.columnCount = gd.getColumnCount();
 		tiles = new Tile[rowCount][columnCount];
 		generateValues();
 		movesCount = 0;
@@ -53,46 +57,60 @@ public class Field {
 
 	}
 
-	public void openTile(int row, int column) {
-		Tile tile = tiles[row][column];
-		if (tile.getState().equals(TileState.CLOSED)) {
-			tile.setState(TileState.OPENED);
-			movesCount++;
-		}
+	public void openTile(int r, int c) {
+		if (getTile(r, c).getState().equals(TileState.CLOSED)) {
+			getTile(r, c).setState(TileState.OPENED);
 
+			if (isSecondTileOpened()) {
+				getTile(r1, c1).setState(TileState.CLOSED);
+				getTile(r2, c2).setState(TileState.CLOSED);
+				r1 = r;
+				c1 = c;
+				r2 = -1;
+				c2 = -1;
+			} else if (isFirstTileOpened()) {
+				r2 = r;
+				c2 = c;
+				Tile tile1 = getTile(r1, c1);
+				Tile tile2 = getTile(r2, c2);
+				if (tile1.getValue() == tile2.getValue()) {
+					getTile(r1, c1).setState(TileState.SOLVED);
+					getTile(r2, c2).setState(TileState.SOLVED);
+					solvedTiles += 2;
+					resetOpenTilePositions();
+
+				}
+			} else {
+				r1 = r;
+				c1 = c;
+
+			}
+		} 	
 	}
-	public void closeTile(int row, int column) {
-		Tile tile = tiles[row][column];
-		if (tile.getState().equals(TileState.OPENED)) {
-			tile.setState(TileState.CLOSED);
-			movesCount--;
-		}
 
+	private boolean isFirstTileOpened() {
+		return r1 != -1 && c1 != -1;
 	}
 
-	public void checkTiles(int row1, int column1, int row2, int column2) {
-		Tile tile1 = tiles[row1][column1];
-		Tile tile2 = tiles[row2][column2];
-		if(tile1.getState().equals(TileState.OPENED)&&tile2.getState().equals(TileState.OPENED))
-		if (tile1.getValue() == tile2.getValue()) {
-			tile1.setState(TileState.SOLVED);
-			solvedTiles++;
-			tile2.setState(TileState.SOLVED);
-			solvedTiles++;
+	private boolean isSecondTileOpened() {
+		return r2 != -1 && c2 != -1;
+	}
 
-		} else {
-			tile1.setState(TileState.CLOSED);
-			tile2.setState(TileState.CLOSED);
-		}
+	private void resetOpenTilePositions() {
+		r1 = -1;
+		c1 = -1;
+		r2 = -1;
+		c2 = -1;
+
 	}
 
 	public boolean isSolved() {
 		return solvedTiles == rowCount * columnCount;
 
 	}
-	public int getScore() {
-		return rowCount * columnCount * 10 - movesCount;
-	}
 
+	public int getScore() {
+		return rowCount * columnCount - movesCount;
+	}
 
 }

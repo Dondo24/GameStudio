@@ -1,4 +1,4 @@
-package GameStudio.Service;
+package GameStudio.Service.score;
 
 import java.util.List;
 

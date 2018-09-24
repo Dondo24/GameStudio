@@ -1,4 +1,4 @@
-package GameStudio.Service;
+package GameStudio.Service.score;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -25,13 +25,10 @@ public class ScoreServiceJDBC implements ScoreService {
     public void addScore(Score score)   {
         try (Connection c = DriverManager.getConnection(URL, USER, PASS)) {
             try (PreparedStatement ps = c.prepareStatement(INSERT)) {
-            	int id = getLastId(c)+1;
-            	ps.setInt(1, id);
-                ps.setString(2, score.getGame());
-                ps.setString(3, score.getPlayer());
-                ps.setInt(4, score.getPoints());
-                ps.setTimestamp(5, new Timestamp(score.getWhen().getTime()));
-
+            	 ps.setString(1, score.getGame());
+                 ps.setString(2, score.getUsername());
+                 ps.setInt(3, score.getPoints());
+                 ps.setTimestamp(4, new Timestamp(score.getPlayedOn().getTime()));
                 ps.execute();
             } catch (SQLException e) {
               e.printStackTrace();

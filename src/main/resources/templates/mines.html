@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+<title>Minesweeper</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous" />
+
+<link rel="stylesheet" href="/css/game.css" />
+</head>
+<body>
+	<div th:replace="fragments::header"></div>
+	<h1>Minesweeper</h1>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-4">
+				<h3>Choose difficulty:</h3>
+				<a class="easy" href="/minesNewEasy">Easy</a> 
+				<a class="normal" href="/minesNewNormal">Normal</a> 
+				<a class="hard" href="/minesNewHard">Hard</a> 
+				<br/>
+				<span class="text" >Click:</span>
+				 <span class="text" th:if="${marking}">Marking</span>
+				  <span class="text" th:unless="${marking}">Opening</span> 
+				  <a href="/minesChangeMarking">(change)</a>
+	
+				<div>
+					<span class="text">State:</span> <span class="text" th:text="${@minesController.gameState}"></span>
+				</div>
+
+				<div  th:utext="${@minesController.getHTMLField()}" />
+				<br/>
+				<div th:if="${@userController.logged}" >
+				<div th:replace="fragments::rating('mines')"></div>
+				</div>
+			</div>
+
+			<div class="col-sm-4">
+				<div th:replace="fragments::score('mines')"></div>
+			</div>
+			<div class="col-sm-4">
+			<div th:if="${@userController.logged}" >
+			<div th:replace="fragments::leaveComent('mines')"></div>
+			</div>
+				<div th:replace="fragments::coment('mines')"></div>
+				
+				
+<!-- 				<div th:replace="fragments::AVGRating('mines')"></div> -->
+			
+			</div>
+
+		</div>
+	</div>
+	<!-- Alternative using Thymeleaf -->
+	<!-- 
+<table class="mines_field">
+	<tr th:each="row : ${#numbers.sequence(0, field.rowCount-1)}">
+		<td th:each="col : ${#numbers.sequence(0, field.columnCount-1)}">
+			<a th:href='@{/mines(row=${row},column=${col})}'>
+				<img th:src="@{/images/mines/{name}.png(name=${@minesController.getImageName(field.getTile(row,col))})}"/>
+			</a>
+		</td>
+	</tr>
+</table>
+ -->
+
+
+</body>
+</html>

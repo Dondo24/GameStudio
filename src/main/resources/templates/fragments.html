@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="/css/game.css" />
+<div th:fragment="header">
+	<h3>Back to <a href="/">MENU</a>. 
+		
+		<a href="/login"
+		th:unless="${@userController.logged}">Login </a> 
+		<a th:unless="${@userController.logged}">or</a>
+		<a href="/register"
+		th:unless="${@userController.logged}">Register </a> <span
+		th:if="${@userController.logged}">You are logged as <span
+		th:text="${@userController.loggedUserName}"></span>. <a href="/logout">Logout</a>
+
+	</span>
+	<hr />
+	</h3>
+</div>
+
+<div  th:fragment="score(gameName)">
+	<hr />
+	<h3>Scores:</h3>
+	<table class="coment">
+	 <tr>
+    <th>Name</th>
+    <th>Score</th>
+  </tr>
+		<tr th:each="score: ${@scoreService.getBestScores(gameName)}">
+			<td class="tab" th:text="${score.username}" />
+			<td class="tab"  th:text="${score.points}" />
+		</tr>
+	</table>
+
+
+</div>
+<div th:fragment="coment(gameName)">
+<hr />
+	<h3>Coments:</h3>
+	<table class="coment">
+		<tr  th:each="coment: ${@comentService.getComents(gameName)}">
+				<td class="tab" th:text="${coment.userName}" />
+				<td class="tab" th:text="${coment.whenW}" />
+			<tr>
+		<td class="tab" colspan="2" th:text="${coment.text}" />
+		</tr>	
+				
+		</tr>
+	</table>
+
+</div>
+
+<div th:fragment="leaveComent(gamename)">
+<hr/>
+<h3>Leave Coment</h3>
+
+<form action="/addcoment" method="post">
+<input type="hidden" name="game"  th:value ="${gamename}"/>
+<div class="center-div">
+<input  type ="text" name = "text"  required = "required"/>
+<input class="center-div" type="submit" values ="Add Comment"/>
+</div>
+</form>
+ </div>
+
+<div   th:fragment="rating(gamename)">
+<hr/>
+<H3>Rate the game from 1 to 5</H3>
+<div class="center-div">
+<form action ="/rate" method = "post">
+<input type="hidden" name="game"  th:value ="${gamename}"/>
+<input class="center-div" type="number" name="value" min="1" max="5"   required="required"/>
+<input class="center-div" type="submit" values="rate"/>
+
+</form>
+</div>
+</div>
+
+<div th:fragment= "AVGRating(gamename)">
+
+<h3>RATING:</h3>
+<h4>
+<span  th:text="${@ratingController.calculate(gamename)}"></span>
+</h4>
+</div>
+<div th:fragment = "loginMenu">
+<h3>Back to  <a href="/">MENU</a>. 
+</h3>>
+</div>
+
+<div th:fragment= "NumberOfPlays(gamename)">
+
+<h3>NumberOfPlays:</h3>
+<h4>
+<span  th:text="${@statisticController.NumberOfPlays(gamename)}"></span>
+</h4>
+</div>
+
+
+
+</html>

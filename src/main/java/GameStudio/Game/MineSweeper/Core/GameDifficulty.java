@@ -1,7 +1,7 @@
 package GameStudio.Game.MineSweeper.Core;
 
 public enum GameDifficulty {
-	EASY(3, 3,1), NORMAL(5, 5, 4), HARD(9,9,9), EXTREME(9, 9,25);
+	EASY(12, 12,6), NORMAL(12, 12, 12), HARD(12,12,24), EXTREME(9, 9,25);
 
 	private final int rowCount;
 

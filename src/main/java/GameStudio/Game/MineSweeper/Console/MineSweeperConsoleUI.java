@@ -3,6 +3,8 @@ package GameStudio.Game.MineSweeper.Console;
 import java.util.Date;
 import java.util.Scanner;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import GameStudio.Entity.Score;
 import GameStudio.Game.Game;
 import GameStudio.Game.MineSweeper.Core.Clue;
@@ -11,22 +13,25 @@ import GameStudio.Game.MineSweeper.Core.GameState;
 import GameStudio.Game.MineSweeper.Core.Mine;
 import GameStudio.Game.MineSweeper.Core.Tile;
 import GameStudio.Game.MineSweeper.Core.TileState;
+
 import GameStudio.Game.MineSweeper.Core.GameDifficulty;
 import GameStudio.Service.*;
+import GameStudio.Service.score.ScoreService;
 
-public class MineSweeperConsoleUI  implements Game{
+public class MineSweeperConsoleUI implements Game {
 	private Field field;
-	private ScoreService scoreService = new ScoreServiceJDBC();
-	private GameDifficulty gd;
+	@Autowired
+	private ScoreService scoreService;
+
 	
+	private GameDifficulty gd;
+
 	public MineSweeperConsoleUI() {
 
-	
 	}
 
 	public void play() {
-		setDifficulty();
-		field = new Field(gd);
+		this.field = new Field(GameDifficulty.EASY);
 
 		printScores();
 		print();
@@ -35,13 +40,18 @@ public class MineSweeperConsoleUI  implements Game{
 			processInput();
 			print();
 		}
-		if (field.getState() == GameState.SOLVED) {
-			scoreService.addScore(new Score("mines",System.getProperty("user.name"), field.getScore(), new Date()));
-			System.out.println("Game solved!");
-		} else if (field.getState() == GameState.FAILED) {
-			System.out.println("Game failed!");
+		
+			if (field.getState() == GameState.SOLVED) {
+				scoreService
+						.addScore(new Score("mines", System.getProperty("user.name"), field.getScore(), new Date()));
+				System.out.println("Game solved!");
+			} else if (field.getState() == GameState.FAILED) {
+				System.out.println("Game failed!");
 
+			
+		
 		}
+
 	}
 
 	private void processInput() {
@@ -121,12 +131,12 @@ public class MineSweeperConsoleUI  implements Game{
 		System.out.println("No.  Player             Score");
 		System.out.println("-----------------------------");
 		for (Score score : scoreService.getBestScores("mines")) {
-			System.out.printf("%3d. %-16s %5d\n", index, score.getPlayer(), score.getPoints());
+			System.out.printf("%3d. %-16s %5d\n", index, score.getUsername(), score.getPoints());
 			index++;
 		}
 		System.out.println("-----------------------------");
 	}
-	
+
 	public void print() {
 		System.out.print(" ");
 		System.out.println(field.getColumnCount());

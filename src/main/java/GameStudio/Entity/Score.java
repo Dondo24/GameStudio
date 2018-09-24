@@ -3,51 +3,71 @@ package GameStudio.Entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Score implements Serializable {
+    @Id
+    @GeneratedValue
+	private long id;
+	
 	private String game;
-	private String player;
-	private int points;
-	private Date when;
+    private String username;
+    private int points;
+    private Date playedOn;
 
-	public Score() {
-	}
- 
-	public Score(String game,String player, int points, Date when) {
-		this.game=  game;
-		this.player = player;
-		this.points = points;
-		this.when = when;
-	}
+    public Score() {
+    }
 
-	public String getGame() {
-		return game;
-	}
-	public String getPlayer() {
-		return player;
-	}
+    public Score(String game, String username, int points, Date playedOn) {
+        this.game = game;
+        this.username = username;
+        this.points = points;
+        this.playedOn = playedOn;
+    }
 
-	public void setPlayer(String player) {
-		this.player = player;
-	}
+    public String getGame() {
+        return game;
+    }
 
-	public int getPoints() {
-		return points;
-	}
+    public void setGame(String game) {
+        this.game = game;
+    }
 
-	public void setPoints(int points) {
-		this.points = points;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public Date getWhen() {
-		return when;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public void setWhen(Date when) {
-		this.when = when;
-	}
+    public int getPoints() {
+        return points;
+    }
 
-	@Override
-	public String toString() {
-		return "Score [player=" + player + ", points=" + points + ", when=" + when + "]";
-	}
-}
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public Date getPlayedOn() {
+        return playedOn;
+    }
+
+    public void setPlayedOn(Date playedOn) {
+        this.playedOn = playedOn;
+    }
+
+    @Override
+    public String toString() {
+        return "Score{" +
+                "game='" + game + '\'' +
+                ", username='" + username + '\'' +
+                ", points=" + points +
+                ", playedOn=" + playedOn +
+                '}';
+    }
+
+ }

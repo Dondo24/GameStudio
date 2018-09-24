@@ -12,7 +12,7 @@ public class Tile {
 		return state;
 	}
 	 
-	  void setState(TileState state) {
+	  public void setState(TileState state) {
 		this.state = state;
 	}
 
